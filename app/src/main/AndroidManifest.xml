@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.example.mobocomp">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCAITON"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -20,6 +23,10 @@
         </activity>
 
         <receiver android:name=".ReminderReceiver" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDBu05MQ0bxD_LlIhivgxp2F6Ne41EspOw" />
     </application>
 
 </manifest>
