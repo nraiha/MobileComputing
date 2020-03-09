@@ -15,7 +15,8 @@ class ReminderReceiver : BroadcastReceiver() {
         MainActivity.showNotification(context,text!!)
 
         doAsync{
-            val db = Room.databaseBuilder(context, AppDatabase::class.java, "reminder").build()
+            val db = Room.databaseBuilder(context, AppDatabase::class.java, "reminder")
+                .build()
             db.reminderDao().delete(uid)
             db.close()
         }

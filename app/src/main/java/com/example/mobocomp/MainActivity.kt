@@ -23,14 +23,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val button_click = findViewById(R.id.button_click) as Button
-        // set on-click listener
-        button_click.setOnClickListener {
-            // your code to perform when the user clicks on the button
-            Toast.makeText(this@MainActivity,"Click clack.", Toast.LENGTH_SHORT).show()
-        }
-
         var fabOpened = false
 
         fab1.setOnClickListener {
@@ -66,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     private fun refreshList() {
         doAsync {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java,
-                "reminder").build()
+                "reminders").build()
             val reminders = db.reminderDao().getReminders()
             db.close()
 

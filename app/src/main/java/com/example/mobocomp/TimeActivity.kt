@@ -40,12 +40,9 @@ class TimeActivity : AppCompatActivity() {
                 doAsync {
                     val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java,
                         "reminders").build()
-                    db.reminderDao().insert(reminder)
+                    val uid = db.reminderDao().insert(reminder).toInt()
                     db.close()
-
-                    setAlarm(reminder.time!!, reminder.message)
-
-
+                    setAlarm(uid, calendar.timeInMillis, reminder.message)
                     finish()
                 }
             } else {
@@ -54,17 +51,17 @@ class TimeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setAlarm(time: Long, message: String) {
+    private fun setAlarm(uid: Int, time: Long, message: String) {
         val intent = Intent(this, ReminderReceiver::class.java)
+        intent.putExtra("uid", uid)
         intent.putExtra("message", message)
 
-        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent,
-            PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this, uid, intent, PendingIntent.FLAG_ONE_SHOT)
 
         val manager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setExact(AlarmManager.RTC, time, pendingIntent)
 
-        runOnUiThread { toast("Reminder is created") }
-
+        runOnUiThread{toast("Reminder is created")}
     }
 }
